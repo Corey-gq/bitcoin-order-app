@@ -33,4 +33,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: sast report
-          path: dependency-check-report/dependency-check-report.html
+          path: dependency-check-report.html
