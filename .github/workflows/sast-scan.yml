@@ -22,8 +22,8 @@ jobs:
 
       - name: OWASP Dependency Check
         run: |
-          wget https://github.com/dependency-check/DependencyCheck/releases/download/v12.1.1/dependency-check-12.1.1-release.zip
-          unzip dependency-check-12.1.1-release.zip
+          wget -O dependency-check.zip https://github.com/dependency-check/DependencyCheck/releases/download/v12.1.1/dependency-check-12.1.1-release.zip
+          unzip -o dependency-check.zip
 
       - name: Run scan with ODC
         run: |
@@ -33,4 +33,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: sast report
-          path: dependency-check-report.html
+          path: dependency-check-report/dependency-check-report.html
+
