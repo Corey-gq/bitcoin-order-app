@@ -24,6 +24,26 @@ jobs:
           wget https://github.com/dependency-check/DependencyCheck/releases/download/v12.1.1/dependency-check-12.1.1-release.zip
           unzip -o dependency-check-12.1.1-release.zip
 
+      - name: Check NVD API
+        env:
+          NVD_API_KEY: ${{ secrets.WORKSHOP6_NVD_API_KEY }}
+        run: |
+          if [ -z "$NVD_API_KEY" ]; then
+            echo "NVD API key is missing"
+            exit 1
+          fi
+
+          status=$(curl -sS -o /dev/null -w "%{http_code}" \
+            -H "apiKey: $NVD_API_KEY" \
+            "https://services.nvd.nist.gov/rest/json/cves/2.0?resultsPerPage=1")
+
+          echo "NVD HTTP status: $status"
+
+          if [ "$status" != "200" ]; then
+            echo "NVD API request failed"
+            exit 1
+          fi
+
       - name: Run scan with ODC
         run: |
           mkdir -p odc-report
